@@ -1,5 +1,6 @@
-PATH
-  remote: ../omniauth-cronofy
+GIT
+  remote: https://github.com/adambird/omniauth-cronofy.git
+  revision: e14b754e5d6b28f52a119eb0285594180af22ce2
   specs:
     omniauth-cronofy (0.1.0)
       omniauth (~> 1.2)

@@ -2,6 +2,12 @@
 <p>
   Have all of your Eventbrite events appear in your calendar automatically.
 </p>
-<p>
-  <%= link_to "Connect to Cronofy", "/auth/cronofy" %>
-</p>
+<% unless logged_in? %>
+  <p>
+    <%= link_to "Connect to Cronofy", "/auth/cronofy" %>
+  </p>
+<% else %>
+  <p>
+    Connected to Cronofy as <%= current_user.email %>
+  </p>
+<% end %>

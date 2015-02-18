@@ -10,4 +10,8 @@ class User < ActiveRecord::Base
     user.save
     user
   end
+
+  def eventbrite_credentials?
+    self.eventbrite_user_id && self.eventbrite_access_token
+  end
 end

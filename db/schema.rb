@@ -11,15 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150214164632) do
+ActiveRecord::Schema.define(version: 20150218145349) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "cronofy_id"
     t.string   "cronofy_access_token"
     t.string   "cronofy_refresh_token"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "eventbrite_user_id"
+    t.string   "eventbrite_access_token"
   end
 
 end

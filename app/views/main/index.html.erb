@@ -10,4 +10,19 @@
   <p>
     Connected to Cronofy as <%= current_user.email %>
   </p>
+
+  <% unless current_user.eventbrite_credentials? %>
+
+  <p>
+    <%= link_to "Connect to Eventbrite", "/auth/eventbrite" %>
+  </p>
+
+  <% else %>
+
+  <p>
+    Connected to Eventbrite
+  </p>
+
+  <% end %>
+
 <% end %>

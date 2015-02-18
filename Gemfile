@@ -23,11 +23,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 gem 'unicorn'
 
+gem 'hatchet'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 gem 'omniauth-cronofy', git: 'https://github.com/adambird/omniauth-cronofy.git'
 # gem 'omniauth-cronofy', path: '../omniauth-cronofy'
+
+gem 'omniauth-eventbrite', git: 'git@github.com:adambird/omniauth-eventbrite.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

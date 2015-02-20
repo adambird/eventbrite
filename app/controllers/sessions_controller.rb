@@ -5,16 +5,18 @@ class SessionsController < ApplicationController
 
     case auth_hash['provider']
     when 'cronofy'
-      @user = User.find_or_create_from_auth_hash(auth_hash)
-      login(@user)
+      process_cronofy_login
     when 'eventbrite'
-      current_user.eventbrite_user_id = auth_hash['uid']
-      current_user.eventbrite_access_token = auth_hash['credentials']['token']
-      current_user.save
+      process_eventbrite_login
     else
-      flash.alert = "Unrecognised provider"
+      log.warn { "#create provider=#{auth_hash['provider']} not recognised" }
+      flash.alert = "Unrecognised provider login"
     end
     redirect_to :root
+  end
+
+  def failure
+    render text: "Failed : #{params.inspect}"
   end
 
   def destroy
@@ -26,6 +28,17 @@ class SessionsController < ApplicationController
 
   def auth_hash
     request.env['omniauth.auth']
+  end
+
+  def process_cronofy_login
+    @user = User.find_or_create_from_auth_hash(auth_hash)
+    login(@user)
+  end
+
+  def process_eventbrite_login
+    current_user.eventbrite_user_id = auth_hash['uid']
+    current_user.eventbrite_access_token = auth_hash['credentials']['token']
+    current_user.save
   end
 
 end

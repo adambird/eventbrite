@@ -28,10 +28,11 @@ gem 'hatchet'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'omniauth-cronofy', git: 'https://github.com/adambird/omniauth-cronofy.git'
-# gem 'omniauth-cronofy', path: '../omniauth-cronofy'
+# gem 'omniauth-cronofy', git: 'https://github.com/adambird/omniauth-cronofy.git'
+gem 'omniauth-cronofy'
 
-gem 'omniauth-eventbrite', git: 'git@github.com:adambird/omniauth-eventbrite.git'
+# referenced forked version as need higher version dependency : omniauth-oauth2 1.2
+gem 'omniauth-eventbrite', git: 'https://github.com/adambird/omniauth-eventbrite.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

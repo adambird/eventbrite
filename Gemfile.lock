@@ -1,17 +1,9 @@
 GIT
-  remote: git@github.com:adambird/omniauth-eventbrite.git
+  remote: https://github.com/adambird/omniauth-eventbrite.git
   revision: 0276bb46f35fcb2f0114c820bafc0b95dbbe5829
   specs:
     omniauth-eventbrite (0.0.6)
       omniauth-oauth2 (~> 1.2.0)
-
-GIT
-  remote: https://github.com/adambird/omniauth-cronofy.git
-  revision: e14b754e5d6b28f52a119eb0285594180af22ce2
-  specs:
-    omniauth-cronofy (0.1.0)
-      omniauth (~> 1.2)
-      omniauth-oauth2 (~> 1.2)
 
 GEM
   remote: https://rubygems.org/
@@ -80,7 +72,7 @@ GEM
     hatchet (0.2.10)
     hike (1.2.3)
     i18n (0.7.0)
-    jbuilder (2.2.6)
+    jbuilder (2.2.7)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.2)
@@ -107,6 +99,9 @@ GEM
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
+    omniauth-cronofy (0.1.0)
+      omniauth (~> 1.2)
+      omniauth-oauth2 (~> 1.2)
     omniauth-oauth2 (1.2.0)
       faraday (>= 0.8, < 0.10)
       multi_json (~> 1.3)
@@ -209,7 +204,7 @@ DEPENDENCIES
   byebug
   hatchet
   jbuilder (~> 2.0)
-  omniauth-cronofy!
+  omniauth-cronofy
   omniauth-eventbrite!
   rails (= 4.2.0)
   rspec-rails

@@ -34,6 +34,9 @@ gem 'omniauth-cronofy'
 # referenced forked version as need higher version dependency : omniauth-oauth2 1.2
 gem 'omniauth-eventbrite', git: 'https://github.com/adambird/omniauth-eventbrite.git'
 
+gem 'cronofy'
+gem 'eventbrite'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

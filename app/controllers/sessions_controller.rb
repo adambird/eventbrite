@@ -31,8 +31,12 @@ class SessionsController < ApplicationController
   end
 
   def process_cronofy_login
-    @user = User.find_or_create_from_auth_hash(auth_hash)
-    login(@user)
+    user = User.find_or_create_by(cronofy_id: auth_hash['uid'])
+    user.email = auth_hash['info']['email']
+    user.cronofy_access_token = auth_hash['credentials']['token']
+    user.cronofy_refresh_token = auth_hash['credentials']['refresh_token']
+    user.save
+    login(user)
   end
 
   def process_eventbrite_login

@@ -7,6 +7,13 @@ class MainController < ApplicationController
 
   end
 
+  def sync
+    eventbrite_orders.each do |order|
+      EventSynchronizer.new(order, current_user.cronofy_access_token).sync
+    end
+    redirect_to :root
+  end
+
   def eventbrite_orders
     @eventbrite_orders ||= begin
       if logged_in? && current_user.eventbrite_credentials?

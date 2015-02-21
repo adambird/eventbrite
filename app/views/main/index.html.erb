@@ -4,11 +4,11 @@
 </p>
 <% unless logged_in? %>
   <p>
-    <%= link_to "Connect to Cronofy", "/auth/cronofy" %>
+    <%= link_to "Connect your calendar", "/auth/cronofy" %>
   </p>
 <% else %>
   <p>
-    Connected to Cronofy as <%= current_user.email %>
+    Connected to <%= current_user.email %>
   </p>
 
   <% unless current_user.eventbrite_credentials? %>
@@ -27,6 +27,9 @@
     <li><%= link_to "#{order.name} | #{order.start_time} | #{order.end_time}", order.url %></li>
   <% end %>
   </ol>
+
+  <%= button_to 'Synchronize events with your calendar', '/sync' %>
+  <%= link_to 'logout', '/logout' %>
   <% end %>
 
 <% end %>

@@ -22,7 +22,11 @@
   <p>
     Connected to Eventbrite
   </p>
-
+  <ol>
+  <% eventbrite_orders.each do |order| %>
+    <li><%= link_to "#{order.name} | #{order.start_time} | #{order.end_time}", order.url %></li>
+  <% end %>
+  </ol>
   <% end %>
 
 <% end %>

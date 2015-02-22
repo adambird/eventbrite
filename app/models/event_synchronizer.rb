@@ -25,7 +25,9 @@ class EventSynchronizer
       description: "#{order.url}\n\n#{order.description}",
       start: order.start_time,
       end: order.end_time,
-      location: order.location
+      location: {
+        description: order.location
+      }
     }
   end
 

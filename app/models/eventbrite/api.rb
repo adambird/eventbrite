@@ -36,7 +36,11 @@ module Eventbrite
     def upcoming_orders
       orders
         .select { |order| order.start_time > Time.now.to_date }
-        .map { |order| order.set_location_from_venue(venue(order.venue_id)) }
+        .map do |order|
+          order_venue = venue(order.venue_id)
+          order.set_location_from_venue(order_venue)
+          order
+        end
     end
 
     def venue(venue_id)

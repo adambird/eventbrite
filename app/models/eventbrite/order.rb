@@ -32,12 +32,7 @@ module Eventbrite
         .reject { |value| value.blank? }
         .join(", ")
 
-      @location = {
-        description: "#{venue['name']}, #{address}",
-        lat: venue['latitude'],
-        lon: venue['longitude']
-      }
-      self
+      @location = "#{venue['name']}, #{address}"
     end
   end
 end

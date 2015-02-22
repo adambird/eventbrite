@@ -25,6 +25,8 @@ gem 'unicorn'
 gem 'faraday'
 gem 'hatchet'
 
+gem 'rails_12factor'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

@@ -6,11 +6,13 @@ class SessionsController < ApplicationController
     case auth_hash['provider']
     when 'cronofy'
       process_cronofy_login(auth_hash)
+      flash[:success] = "Connected to your calendars"
     when 'eventbrite'
       process_eventbrite_login(auth_hash)
+      flash[:success] = "Connected to Eventbrite"
     else
       log.warn { "#create provider=#{auth_hash['provider']} not recognised" }
-      flash.alert = "Unrecognised provider login"
+      flash[:error] = "Unrecognised provider login"
     end
     redirect_to :root
   end
@@ -21,6 +23,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
+    flash[:notice] = "Logged out"
     redirect_to :root
   end
 

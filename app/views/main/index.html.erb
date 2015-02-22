@@ -4,10 +4,18 @@
   Sample app that will add all of your upcoming Eventbrite events to your calendar.
 </p>
 
+<div class="row">
+<% flash.each do |type, message| %>
+  <div class="alert <%= bootstrap_class_for(type) %> fade in col-md-4" role="alert">
+    <button class="close" data-dismiss="alert">×</button>
+    <%= message %>
+  </div>
+<% end %>
+</div>
 <% unless logged_in? %>
 
   <p>
-    <%= link_to "Connect your calendar", "/auth/cronofy", class: 'btn btn-success', data: { disable_with: "Connecting to Cronofy..." }  %>
+    <%= link_to "Connect your calendar", "/auth/cronofy", class: 'btn btn-success', data: { disable_with: "Connecting via Cronofy..." }  %>
   </p>
 
 <% else %>
@@ -32,22 +40,22 @@
 
       <ol>
       <% eventbrite_orders.each do |order| %>
-        <li><%= link_to "#{order.name} | #{order.start_time} | #{order.end_time}", order.url %></li>
+        <li><%= link_to "#{order.name} | #{order.start_time.strftime('%F')}", order.url %></li>
       <% end %>
       </ol>
 
     <% else %>
 
-      <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite (this can take a little while)..." } %>
+      <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite, this can take a little while..." } %>
 
     <% end %>
 
     <p>
-      <%= button_to 'Synchronize events with your calendar', '/sync', class: 'btn btn-success', data: { disable_with: "Synchronizing..." } %>
+      <%= button_to 'Synchronize events with your calendar', '/sync', class: 'btn btn-success', data: { disable_with: "Synchronizing events..." } %>
     </p>
 
     <p>
-      <%= link_to 'logout', '/logout', class: 'btn btn-default' %>
+      <%= link_to 'Logout', '/logout', class: 'btn btn-default' %>
     </p>
 
   <% end %>

@@ -1,35 +1,55 @@
 <h1>Eventbrite calendar connector</h1>
+
 <p>
-  Have all of your Eventbrite events appear in your calendar automatically.
+  Sample app that will add all of your upcoming Eventbrite events to your calendar.
 </p>
+
 <% unless logged_in? %>
+
   <p>
-    <%= link_to "Connect your calendar", "/auth/cronofy" %>
+    <%= link_to "Connect your calendar", "/auth/cronofy", class: 'btn btn-success', data: { disable_with: "Connecting to Cronofy..." }  %>
   </p>
+
 <% else %>
+
   <p>
-    Connected to <%= current_user.email %>
+    Connected to calendars for <strong><%= current_user.email %></strong>
   </p>
 
   <% unless current_user.eventbrite_credentials? %>
 
-  <p>
-    <%= link_to "Connect to Eventbrite", "/auth/eventbrite" %>
-  </p>
+    <p>
+      <%= link_to "Connect to Eventbrite", "/auth/eventbrite", class: 'btn btn-success', data: { disable_with: "Connecting to Eventbrite..." } %>
+    </p>
 
   <% else %>
 
-  <p>
-    Connected to Eventbrite
-  </p>
-  <ol>
-  <% eventbrite_orders.each do |order| %>
-    <li><%= link_to "#{order.name} | #{order.start_time} | #{order.end_time}", order.url %></li>
-  <% end %>
-  </ol>
+    <p>
+      Connected to <strong>Eventbrite</strong>
+    </p>
 
-  <%= button_to 'Synchronize events with your calendar', '/sync' %>
-  <%= link_to 'logout', '/logout' %>
+    <% if params[:load_events] %>
+
+      <ol>
+      <% eventbrite_orders.each do |order| %>
+        <li><%= link_to "#{order.name} | #{order.start_time} | #{order.end_time}", order.url %></li>
+      <% end %>
+      </ol>
+
+    <% else %>
+
+      <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite (this can take a little while)..." } %>
+
+    <% end %>
+
+    <p>
+      <%= button_to 'Synchronize events with your calendar', '/sync', class: 'btn btn-success', data: { disable_with: "Synchronizing..." } %>
+    </p>
+
+    <p>
+      <%= link_to 'logout', '/logout', class: 'btn btn-default' %>
+    </p>
+
   <% end %>
 
 <% end %>

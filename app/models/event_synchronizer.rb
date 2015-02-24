@@ -42,7 +42,7 @@ class EventSynchronizer
       location: {
         description: order.location
       }
-    }.dup
+    }
   end
 
   def sync

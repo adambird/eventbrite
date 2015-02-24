@@ -17,7 +17,12 @@ class MainController < ApplicationController
       EventSynchronizer.new(order, current_user).sync
     end
     flash[:success] = "Your Eventbrite events are now in your calendar"
-    redirect_to :root
+    redirect_to root_path(sync_complete: 1)
+  end
+
+  def sync_always
+    current_user.sync_always = true
+    current_user.save
   end
 
   def eventbrite_orders

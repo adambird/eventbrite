@@ -1,7 +1,5 @@
-<h1>Eventbrite Calendar Connector</h1>
-
 <p>
-  Add all of your upcoming Eventbrite events to your calendar with just one click.
+  Add all of your upcoming Eventbrite events to your calendar in one go.
 </p>
 
 <div class="row">
@@ -36,23 +34,34 @@
       Connected to <strong>Eventbrite</strong>
     </p>
 
-    <% if params[:load_events] %>
+    <% if params[:sync_complete] %>
 
-      <ol>
-      <% eventbrite_orders.each do |order| %>
-        <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
-      <% end %>
-      </ol>
+      <p>
+        <%= button_to 'Keep my calendar in sync with Eventbrite', '/sync_always', class: 'btn btn-success btn-lg', data: { disable_with: "Setting up..." } %>
+      </p>
 
     <% else %>
 
-      <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite, this can take a little while..." } %>
+      <% if params[:load_events] %>
+
+        <ol>
+        <% eventbrite_orders.each do |order| %>
+          <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
+        <% end %>
+        </ol>
+
+      <% else %>
+
+        <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite, this can take a little while..." } %>
+
+      <% end %>
+
+      <p>
+        <%= button_to 'Synchronize events with your calendar', '/sync', class: 'btn btn-success', data: { disable_with: "Synchronizing events..." } %>
+      </p>
 
     <% end %>
 
-    <p>
-      <%= button_to 'Synchronize events with your calendar', '/sync', class: 'btn btn-success', data: { disable_with: "Synchronizing events..." } %>
-    </p>
 
     <p>
       <div class="btn-group" role="group">

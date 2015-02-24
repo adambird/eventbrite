@@ -9,7 +9,7 @@ class MainController < ApplicationController
 
   def sync
     eventbrite_orders.each do |order|
-      EventSynchronizer.new(order, current_user.cronofy_access_token).sync
+      EventSynchronizer.new(order, current_user).sync
     end
     flash[:success] = "Your Eventbrite events are now in your calendar"
     redirect_to :root

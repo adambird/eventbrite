@@ -25,12 +25,11 @@ gem 'unicorn'
 gem 'faraday'
 gem 'hatchet'
 
-gem 'rails_12factor'
+gem 'rails_serve_static_assets'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# gem 'omniauth-cronofy', git: 'https://github.com/adambird/omniauth-cronofy.git'
 gem 'omniauth-cronofy'
 
 # referenced forked version as need higher version dependency : omniauth-oauth2 1.2

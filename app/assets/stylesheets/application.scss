@@ -10,3 +10,13 @@ h1 {
   background-size: 40px;
   padding-left: 46px;
 }
+
+footer {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 1px solid $gray-lighter;
+  li, p {
+    font-size: 0.9em;
+    color: rgb(90, 84, 77);
+  }
+}

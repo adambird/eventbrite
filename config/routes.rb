@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   root 'main#index'
+  delete '/', to: 'main#destroy'
   post 'sync', to: 'main#sync'
 
   get '/auth/:provider/callback', to: 'sessions#create'

@@ -4,7 +4,12 @@ class MainController < ApplicationController
 
   def index
 
+  end
 
+  def destroy
+    User.destroy(current_user.id)
+    flash[:success] = "Account deleted"
+    redirect_to :root
   end
 
   def sync

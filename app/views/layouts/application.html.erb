@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Eventbrite</title>
+  <title>Eventbrite Calendar Connector by Cronofy</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= render partial: 'shared/head' %>
 </head>
 <body>
   <div class="container">
     <h1>Eventbrite Calendar Connector</h1>
+
 <%= yield %>
+
+  <%= render partial: 'shared/share' %>
+
+  <%= render partial: 'shared/footer' %>
+
   </div>
 </body>
 </html>

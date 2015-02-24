@@ -1,0 +1,22 @@
+
+    <footer>
+
+      <p>
+        This is a <a href="http://www.cronofy.com">Cronofy</a> sample app demonstrating interacting with the <a href="http://www.cronofy.com/developers">Cronofy</a> and <a href="http://developer.eventbrite.com">Eventbrite API</a>s
+      </p>
+      <ul>
+        <li><a href="http://www.cronofy.com/developers/samples/eventbrite">Technical docs</a></li>
+        <li><a href="https://github.com/adambird/eventbrite">Source code</a></li>
+      </ul>
+
+      <% if logged_in? %>
+
+      <p>
+        <div class="btn-group" role="group">
+          <%= link_to 'Logout', '/logout', class: 'btn btn-link' %> <%= button_to 'Delete Account', '/', method: :delete, data: { confirm: "Are you sure?", disable_with: "Deleting..." }, class: 'btn btn-link' %>
+        </div>
+      </p>
+
+      <% end %>
+
+    </footer>

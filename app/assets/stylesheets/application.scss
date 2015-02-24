@@ -1,2 +1,12 @@
+$brand-success: rgb(73, 190, 216);
+$body-bg: rgb(245, 243, 242);
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+h1 {
+  background-image: image-url('icon.png');
+  background-repeat: no-repeat;
+  background-size: 40px;
+  padding-left: 46px;
+}

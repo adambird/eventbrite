@@ -1,4 +1,4 @@
-<h1>Eventbrite calendar connector</h1>
+<h1>Eventbrite Calendar Connector</h1>
 
 <p>
   Sample app that will add all of your upcoming Eventbrite events to your calendar.
@@ -40,7 +40,7 @@
 
       <ol>
       <% eventbrite_orders.each do |order| %>
-        <li><%= link_to "#{order.name} | #{order.start_time.strftime('%F')}", order.url %></li>
+        <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
       <% end %>
       </ol>
 

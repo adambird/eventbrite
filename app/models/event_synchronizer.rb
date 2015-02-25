@@ -9,7 +9,7 @@ class EventSynchronizer
   end
 
   def cronofy_api
-    Cronofy::Cronofy.new(
+    Cronofy::Client.new(
       ENV["CRONOFY_CLIENT_ID"],
       ENV["CRONOFY_CLIENT_SECRET"],
       user.cronofy_access_token,

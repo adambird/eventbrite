@@ -18,7 +18,15 @@ class SessionsController < ApplicationController
   end
 
   def failure
-    render text: "Failed : #{params.inspect}"
+    case params[:strategy]
+    when "cronofy"
+      flash[:error] = "Unable to connect to your calendars: #{params[:message]}"
+    when "eventbrite"
+      flash[:error] = "Unable to connect to your Eventbrite account: #{params[:message]}"
+    else
+      flash[:error] = "Failure from unrecognised provider"
+    end
+    redirect_to :root
   end
 
   def destroy

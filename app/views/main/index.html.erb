@@ -37,18 +37,24 @@
     <% if params[:sync_complete] %>
 
       <p>
-        <%= button_to 'Keep my calendar in sync with Eventbrite', '/sync_always', class: 'btn btn-success btn-lg', data: { disable_with: "Setting up..." } %>
+        <%= button_to 'Keep my calendar in sync with Eventbrite', '/sync_always', class: 'btn btn-success', data: { disable_with: "Setting up..." } %>
       </p>
 
     <% else %>
 
       <% if params[:load_events] %>
 
-        <ol>
-        <% eventbrite_orders.each do |order| %>
-          <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
+        <% if eventbrite_orders.any? %>
+          <ol>
+          <% eventbrite_orders.each do |order| %>
+            <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
+          <% end %>
+          </ol>
+        <% else %>
+          <p>
+            No upcoming events found, you need to get out more ;).
+          </p>
         <% end %>
-        </ol>
 
       <% else %>
 

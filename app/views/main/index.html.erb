@@ -13,25 +13,31 @@
 <% unless logged_in? %>
 
   <p>
+    First step is to connect to your calendar using the Cronofy Calendar API service.
+  </p>
+  <p>
     <%= link_to "Connect your calendar", "/auth/cronofy", class: 'btn btn-success', data: { disable_with: "Connecting via Cronofy..." }  %>
   </p>
 
 <% else %>
 
-  <p>
-    Connected to calendars for <strong><%= current_user.email %></strong>
+  <p class="success">
+    <span class="glyphicon glyphicon-ok"></span> Connected to calendars for <strong><%= current_user.email %></strong>
   </p>
 
   <% unless current_user.eventbrite_credentials? %>
 
+    <p>
+      Now we connect to your Eventbrite account to see what you've got coming up.
+    </p>
     <p>
       <%= link_to "Connect to Eventbrite", "/auth/eventbrite", class: 'btn btn-success', data: { disable_with: "Connecting to Eventbrite..." } %>
     </p>
 
   <% else %>
 
-    <p>
-      Connected to <strong>Eventbrite</strong>
+    <p class="success">
+      <span class="glyphicon glyphicon-ok"></span> Connected to <strong>Eventbrite</strong>
     </p>
 
     <% if params[:sync_complete] %>

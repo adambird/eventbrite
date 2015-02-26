@@ -24,6 +24,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'unicorn'
 gem 'faraday'
 gem 'hatchet'
+gem 'airbrake'
+gem 'hatchet-airbrake', require: 'hatchet_airbrake'
 
 gem 'rails_serve_static_assets'
 

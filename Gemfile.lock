@@ -43,6 +43,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    airbrake (3.2.1)
+      builder
+      multi_json
     arel (6.0.0)
     autoprefixer-rails (5.1.7)
       execjs
@@ -71,6 +74,9 @@ GEM
       activesupport (>= 4.1.0)
     hashie (3.4.0)
     hatchet (0.2.10)
+    hatchet-airbrake (0.0.4)
+      airbrake (~> 3.1)
+      hatchet (~> 0.2)
     hike (1.2.3)
     i18n (0.7.0)
     jbuilder (2.2.8)
@@ -205,11 +211,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   bootstrap-sass
   byebug
   cronofy
   faraday
   hatchet
+  hatchet-airbrake
   jbuilder (~> 2.0)
   jquery-rails
   omniauth-cronofy

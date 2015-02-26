@@ -18,6 +18,10 @@ class MainController < ApplicationController
     end
     flash[:success] = "Your Eventbrite events are now in your calendar"
     redirect_to root_path(sync_complete: 1)
+  rescue => e
+    log.error "#sync failed with #{e.message}", e
+    flash[:error] = "Sorry, but something went wrong and we couldn't sync your events"
+    redirect_to :root
   end
 
   def sync_always

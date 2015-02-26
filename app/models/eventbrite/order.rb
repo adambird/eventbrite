@@ -15,15 +15,18 @@ module Eventbrite
     end
 
     def self.load_from_api(data)
-      self.new(
+      args = {
         event_id: data['event_id'],
         name: data['event']['name']['text'],
         start_time: Time.parse(data['event']['start']['utc']),
         end_time: Time.parse(data['event']['end']['utc']),
-        description: data['event']['description']['text'],
         url: data['event']['url'],
         venue_id: data['event']['venue_id']
-      )
+      }
+
+      args[:description] = data['event']['description']['text'] if data['event']['description']
+
+      self.new(args)
     end
 
     def set_location_from_venue(venue)

@@ -48,29 +48,35 @@
 
     <% else %>
 
-      <% if params[:load_events] %>
+        <% if params[:load_events] %>
 
-        <% if eventbrite_orders.any? %>
-          <ol>
-          <% eventbrite_orders.each do |order| %>
-            <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
+          <% if eventbrite_orders.any? %>
+            <ol>
+            <% eventbrite_orders.each do |order| %>
+              <li><%= link_to "#{order.name} - #{order.start_time.strftime('%F')}", order.url %></li>
+            <% end %>
+            </ol>
+          <% else %>
+            <p>
+              No upcoming events found, you need to get out more ;).
+            </p>
           <% end %>
-          </ol>
+
         <% else %>
-          <p>
-            No upcoming events found, you need to get out more ;).
-          </p>
+
+          <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite, this can take a little while..." } %>
+
         <% end %>
 
-      <% else %>
+        <%= form_tag('/sync') do %>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Select calendar</label>
+            <%= select_tag "calendar_id", grouped_options_for_select(grouped_calendars, default_calendar_id) %>
+          </div>
 
-        <%= link_to "Show upcoming events", root_path(load_events: 1), class: "btn btn-default", data: { disable_with: "Loading from Eventbrite, this can take a little while..." } %>
+          <%= submit_tag 'Synchronize events with your calendar', class: 'btn btn-success', data: { disable_with: "Synchronizing events..." } %>
 
-      <% end %>
-
-      <p>
-        <%= button_to 'Synchronize events with your calendar', '/sync', class: 'btn btn-success', data: { disable_with: "Synchronizing events..." } %>
-      </p>
+        <% end %>
 
     <% end %>
 

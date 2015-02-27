@@ -1,6 +1,6 @@
 class MainController < ApplicationController
 
-  helper_method :eventbrite_orders
+  helper_method :eventbrite_orders, :grouped_calendars, :default_calendar_id
 
   def index
 
@@ -14,8 +14,9 @@ class MainController < ApplicationController
 
   def sync
     eventbrite_orders.each do |order|
-      EventSynchronizer.new(order, current_user).sync
+      event_synchronizer.sync_order(order, params[:calendar_id])
     end
+
     flash[:success] = "Your Eventbrite events are now in your calendar"
     redirect_to root_path(sync_complete: 1)
   rescue => e
@@ -30,11 +31,31 @@ class MainController < ApplicationController
   end
 
   def eventbrite_orders
+    return unless logged_in? && current_user.eventbrite_credentials?
+
     @eventbrite_orders ||= begin
-      if logged_in? && current_user.eventbrite_credentials?
-        eventbrite = Eventbrite::API.new(current_user.eventbrite_access_token)
-        eventbrite.upcoming_orders
-      end
+      eventbrite = Eventbrite::API.new(current_user.eventbrite_access_token)
+      eventbrite.upcoming_orders
     end
+  end
+
+  def grouped_calendars
+    return unless logged_in?
+
+    @grouped_calendars ||= begin
+      event_synchronizer.editable_calendars
+        .map { |c| [ c.calendar_name, "#{c.profile_name} [#{c.provider_name.titlecase}]", c.calendar_id ] }
+        .group_by { |c| c[1] }
+    end
+  end
+
+  def default_calendar_id
+    event_synchronizer.default_calendar_id
+  end
+
+  def event_synchronizer
+    return unless logged_in?
+
+    @event_synchronizer ||= EventSynchronizer.new(current_user)
   end
 end

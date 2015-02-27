@@ -32,9 +32,11 @@ module Eventbrite
         payload = JSON.parse(response.body)
         items.concat(payload[items_key])
 
-        total_pages = payload['pagination']['page_count'].to_f
+        total_pages = payload['pagination']['page_count'].to_i
+        current_page += 1
 
-      end while (current_page += 1) <= total_pages
+      end while current_page <= total_pages
+
       items
     end
 
@@ -51,7 +53,7 @@ module Eventbrite
       orders
         .select { |order| order.start_time > Time.now.to_date }
         .map do |order|
-          if !order.venue_id.blank? && order_venue = venue(order.venue_id)
+          if order_venue = venue(order.venue_id)
             order.set_location_from_venue(order_venue)
           end
           order
@@ -59,6 +61,7 @@ module Eventbrite
     end
 
     def venue(venue_id)
+      return if venue_id.blank?
       # don't lookup venue again if nothing returned last time
       return venue_dictionary[venue_id] if venue_dictionary.has_key?(venue_id)
 
@@ -71,7 +74,7 @@ module Eventbrite
         if response.success?
           JSON.parse(response.body)
         else
-          log.warn { "#venue #{venue_id} response #{response.status} headers #{response.headers}"}
+          log.warn { "#venue venue_id=#{venue_id} response #{response.status} headers #{response.headers}"}
           nil
         end
       end

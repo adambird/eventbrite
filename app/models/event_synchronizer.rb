@@ -1,10 +1,9 @@
 class EventSynchronizer
   include Hatchet
 
-  attr_reader :order, :user
+  attr_reader :user
 
-  def initialize(order, user)
-    @order = order
+  def initialize(user)
     @user = user
   end
 
@@ -18,21 +17,22 @@ class EventSynchronizer
   end
 
   # Currently just choosing first editable calendar in the linked account
-  def calendar_id
-    @calendar_id ||= editable_calendars.first['calendar_id']
+  def default_calendar_id
+    @calendar_id ||= editable_calendars.first.calendar_id
   end
 
   def calendars
     api_request { cronofy_api.list_calendars['calendars'] }
+      .map { |item| OpenStruct.new(item) }
   end
 
   def editable_calendars
-    calendars.reject { |calendar| calendar['calendar_readonly']}
+    calendars.reject { |calendar| calendar.calendar_readonly }
   end
 
   # Note in the representation of the event passed to Cronofy you use the
   # local ID so no mapping required on client side
-  def cronofy_event
+  def cronofy_event(order)
     {
       event_id: order.event_id,
       summary: order.name,
@@ -45,8 +45,12 @@ class EventSynchronizer
     }
   end
 
-  def sync
-    api_request { cronofy_api.create_or_update_event(calendar_id, cronofy_event) }
+  def sync_order(order, calendar_id)
+    calendar_id ||= default_calendar_id
+    api_request do
+      event = cronofy_event(order)
+      cronofy_api.upsert(calendar_id, event)
+    end
   end
 
   # Wrapper for API requests to handle refreshing the access token when it's expired

@@ -45,11 +45,11 @@ class EventSynchronizer
     }
   end
 
-  def sync_order(order, calendar_id)
+  def sync_order(order, calendar_id=nil)
     calendar_id ||= default_calendar_id
     api_request do
       event = cronofy_event(order)
-      cronofy_api.upsert(calendar_id, event)
+      cronofy_api.upsert_event(calendar_id, event)
     end
   end
 

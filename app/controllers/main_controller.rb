@@ -13,8 +13,9 @@ class MainController < ApplicationController
   end
 
   def sync
+    log.debug { "#sync #{params.inspect}" }
     eventbrite_orders.each do |order|
-      event_synchronizer.sync_order(order)
+      event_synchronizer.sync_order(order, params[:calendar_id])
     end
 
     flash[:success] = "Your Eventbrite events are now in your calendar"
@@ -42,8 +43,8 @@ class MainController < ApplicationController
     @grouped_calendars ||= begin
       return unless logged_in?
       event_synchronizer.editable_calendars
-        .map { |c| [ c.calendar_name, c.calendar_id, "#{c.profile_name} [#{c.provider_name.titlecase}]" ] }
-        .group_by { |c| c[2] }
+        .map { |c| [ c.calendar_name, "#{c.profile_name} [#{c.provider_name.titlecase}]", c.calendar_id ] }
+        .group_by { |c| c[1] }
     end
   end
 

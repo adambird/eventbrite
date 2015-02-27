@@ -71,7 +71,7 @@
         <%= form_tag('/sync') do %>
           <div class="form-group">
             <label for="exampleInputEmail1">Select calendar</label>
-            <%= select_tag "calendar", grouped_options_for_select(grouped_calendars, default_calendar_id) %>
+            <%= select_tag "calendar_id", grouped_options_for_select(grouped_calendars, default_calendar_id) %>
           </div>
 
           <%= submit_tag 'Synchronize events with your calendar', class: 'btn btn-success', data: { disable_with: "Synchronizing events..." } %>

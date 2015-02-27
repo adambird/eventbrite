@@ -2,7 +2,7 @@
       <h3>Share the joy...</h3>
       <a class="twitter-share-button"
         href="https://twitter.com/share"
-        data-url="<%= root_url(utm_campaign: 'on_page', utm_medium: 'twitter', utm_source: 'app') %>"
+        data-url="<%= root_url(utm_campaign: 'on_page', utm_medium: 'twitter', utm_source: utm_source) %>"
         data-text="I'm loving the Eventbrite Calendar Connector by Cronofy"
         data-via="cronofy"
         data-count="none"
@@ -10,8 +10,8 @@
       Tweet
       </a>
 
-      <script type="IN/Share" data-url="<%= root_url(utm_campaign: 'on_page', utm_medium: 'linkedin', utm_source: 'app') %>"></script>
+      <script type="IN/Share" data-url="<%= root_url(utm_campaign: 'on_page', utm_medium: 'linkedin', utm_source: utm_source) %>"></script>
 
-      <div class="fb-like" data-href="<%= root_url(utm_campaign: 'on_page', utm_medium: 'facebook', utm_source: 'app') %>" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+      <div class="fb-like" data-href="<%= root_url(utm_campaign: 'on_page', utm_medium: 'facebook', utm_source: utm_source) %>" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
 
     </section>

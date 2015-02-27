@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :logged_in?
+  helper_method :current_user, :logged_in?, :utm_source
 
   def login(user)
     session[:user_id] = user.id
@@ -23,4 +23,7 @@ class ApplicationController < ActionController::Base
     !current_user.nil?
   end
 
+  def utm_source
+    logged_in? ? "user_#{current_user.id}" : "not_logged_in"
+  end
 end

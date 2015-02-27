@@ -13,47 +13,73 @@ module Eventbrite
       @connection ||= Faraday.new('https://www.eventbriteapi.com')
     end
 
-    # Events you attend in Eventbrite are modelled as Orders
-    # An order is composed of an Event which in turn is composed
-    # a venue
-    def orders
-      @orders ||= begin
-        response = connection.get("/v3/users/me/orders/") do |request|
+    # utility method for iterating over all pages of a given resource
+    def all_pages(resource_path, items_key)
+      current_page = 1
+      items = []
+
+      begin
+        log.info { "#all_pages #{resource_path} current_page=#{current_page}" }
+        response = connection.get("#{resource_path}?page=#{current_page}") do |request|
           request.headers['Authorization'] = "Bearer #{access_token}"
         end
 
         unless response.success?
-          log.debug { "#orders response #{response.status} headers #{response.headers}"}
-          raise "#{response.status}"
+          log.warn { "#all_pages #{resource_path} response #{response.status} headers #{response.headers}"}
+          raise StandardError.new("HTTP: #{response.status}")
         end
 
-        JSON.parse(response.body)['orders']
-          .reject { |order| order['event'].nil? }
-          .map { |order| Eventbrite::Order.load_from_api(order) }
-      end
+        payload = JSON.parse(response.body)
+        items.concat(payload[items_key])
+
+        total_pages = payload['pagination']['page_count'].to_f
+
+      end while (current_page += 1) <= total_pages
+      items
+    end
+
+    # Events you attend in Eventbrite are modelled as Orders
+    # An order is composed of an Event which in turn is composed
+    # a venue
+    def orders
+      @orders ||= all_pages("/v3/users/me/orders/", 'orders')
+                    .reject { |order| order['event'].nil? }
+                    .map { |order| Eventbrite::Order.load_from_api(order) }
     end
 
     def upcoming_orders
       orders
         .select { |order| order.start_time > Time.now.to_date }
         .map do |order|
-          order_venue = venue(order.venue_id)
-          order.set_location_from_venue(order_venue)
+          if !order.venue_id.blank? && order_venue = venue(order.venue_id)
+            order.set_location_from_venue(order_venue)
+          end
           order
         end
     end
 
     def venue(venue_id)
-      response = connection.get("/v3/venues/#{venue_id}/") do |request|
-        request.headers['Authorization'] = "Bearer #{access_token}"
-      end
+      # don't lookup venue again if nothing returned last time
+      return venue_dictionary[venue_id] if venue_dictionary.has_key?(venue_id)
 
-      unless response.success?
-        log.debug { "#orders response #{response.status} headers #{response.headers}"}
-        raise "#{response.status}"
-      end
+      venue_dictionary[venue_id] = begin
+        response = connection.get("/v3/venues/#{venue_id}/") do |request|
+          request.headers['Authorization'] = "Bearer #{access_token}"
+        end
 
-      JSON.parse(response.body)
+        # log failures but don't fail
+        if response.success?
+          JSON.parse(response.body)
+        else
+          log.warn { "#venue #{venue_id} response #{response.status} headers #{response.headers}"}
+          nil
+        end
+      end
+    end
+
+    # local venue lookup to save duplicate API calls
+    def venue_dictionary
+      @venue_dictionary ||= {}
     end
   end
 end

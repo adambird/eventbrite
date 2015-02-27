@@ -7,14 +7,27 @@ class MainController < ApplicationController
   end
 
   def destroy
+    unless logged_in?
+      flash[:alert] = "Must be connected to your calendar account before we do that"
+      redirect_to :root
+    end
+
     User.destroy(current_user.id)
     flash[:success] = "Account deleted"
     redirect_to :root
   end
 
   def sync
+    unless logged_in?
+      flash[:alert] = "Must be connected to your calendar account before we do that"
+      redirect_to :root
+    end
+
+    current_user.calendar_id = params[:calendar_id] unless params[:calendar_id].blank?
+    current_user.save
+
     eventbrite_orders.each do |order|
-      event_synchronizer.sync_order(order, params[:calendar_id])
+      event_synchronizer.sync_order(order, current_user.calendar_id)
     end
 
     flash[:success] = "Your Eventbrite events are now in your calendar"
@@ -26,6 +39,11 @@ class MainController < ApplicationController
   end
 
   def sync_always
+    unless logged_in?
+      flash[:alert] = "Must be connected to your calendar account before we do that"
+      redirect_to :root
+    end
+
     current_user.sync_always = true
     current_user.save
   end
@@ -50,7 +68,7 @@ class MainController < ApplicationController
   end
 
   def default_calendar_id
-    event_synchronizer.default_calendar_id
+    current_user.calendar_id || event_synchronizer.default_calendar_id
   end
 
   def event_synchronizer

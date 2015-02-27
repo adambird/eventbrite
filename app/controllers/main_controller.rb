@@ -1,6 +1,6 @@
 class MainController < ApplicationController
 
-  helper_method :eventbrite_orders, :calendars, :default_calendar_id
+  helper_method :eventbrite_orders, :grouped_calendars, :default_calendar_id
 
   def index
 
@@ -38,10 +38,12 @@ class MainController < ApplicationController
     end
   end
 
-  def calendars
-    @calendars ||= begin
+  def grouped_calendars
+    @grouped_calendars ||= begin
       return unless logged_in?
       event_synchronizer.editable_calendars
+        .map { |c| [ c.calendar_name, c.calendar_id, "#{c.profile_name} [#{c.provider_name.titlecase}]" ] }
+        .group_by { |c| c[2] }
     end
   end
 

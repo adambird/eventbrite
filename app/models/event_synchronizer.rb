@@ -23,7 +23,7 @@ class EventSynchronizer
 
   def calendars
     api_request { cronofy_api.list_calendars['calendars'] }
-      .map { |item| OpenStruct.new(item) }
+      .map { |item| OpenStruct.new(item)}
   end
 
   def editable_calendars

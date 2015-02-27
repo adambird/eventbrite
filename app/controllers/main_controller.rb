@@ -13,7 +13,6 @@ class MainController < ApplicationController
   end
 
   def sync
-    log.debug { "#sync #{params.inspect}" }
     eventbrite_orders.each do |order|
       event_synchronizer.sync_order(order, params[:calendar_id])
     end
@@ -32,16 +31,18 @@ class MainController < ApplicationController
   end
 
   def eventbrite_orders
+    return unless logged_in? && current_user.eventbrite_credentials?
+
     @eventbrite_orders ||= begin
-      return unless logged_in? && current_user.eventbrite_credentials?
       eventbrite = Eventbrite::API.new(current_user.eventbrite_access_token)
       eventbrite.upcoming_orders
     end
   end
 
   def grouped_calendars
+    return unless logged_in?
+
     @grouped_calendars ||= begin
-      return unless logged_in?
       event_synchronizer.editable_calendars
         .map { |c| [ c.calendar_name, "#{c.profile_name} [#{c.provider_name.titlecase}]", c.calendar_id ] }
         .group_by { |c| c[1] }
@@ -53,6 +54,8 @@ class MainController < ApplicationController
   end
 
   def event_synchronizer
+    return unless logged_in?
+
     @event_synchronizer ||= EventSynchronizer.new(current_user)
   end
 end

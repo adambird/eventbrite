@@ -9,11 +9,9 @@ class EventSynchronizer
 
   def cronofy_api
     Cronofy::Client.new(
-      ENV["CRONOFY_CLIENT_ID"],
-      ENV["CRONOFY_CLIENT_SECRET"],
-      user.cronofy_access_token,
-      user.cronofy_refresh_token
-      )
+      access_token: user.cronofy_access_token,
+      refresh_token: user.cronofy_refresh_token
+    )
   end
 
   # Currently just choosing first editable calendar in the linked account
@@ -22,12 +20,11 @@ class EventSynchronizer
   end
 
   def calendars
-    api_request { cronofy_api.list_calendars['calendars'] }
-      .map { |item| OpenStruct.new(item)}
+    api_request { cronofy_api.list_calendars }
   end
 
   def editable_calendars
-    calendars.reject { |calendar| calendar.calendar_readonly }
+    calendars.reject(&:calendar_readonly)
   end
 
   # Note in the representation of the event passed to Cronofy you use the

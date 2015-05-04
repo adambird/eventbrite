@@ -34,8 +34,7 @@ gem 'rails_serve_static_assets'
 
 gem 'omniauth-cronofy'
 
-# referenced forked version as need higher version dependency : omniauth-oauth2 1.2
-gem 'omniauth-eventbrite', git: 'https://github.com/adambird/omniauth-eventbrite.git'
+gem 'omniauth-eventbrite'
 
 gem 'cronofy'
 

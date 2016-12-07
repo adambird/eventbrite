@@ -17,8 +17,7 @@ class EventSynchronizer
   end
 
   def calendars
-    api_request { cronofy_api.list_calendars['calendars'] }
-      .map { |item| OpenStruct.new(item)}
+    api_request { cronofy_api.list_calendars }
   end
 
   def editable_calendars

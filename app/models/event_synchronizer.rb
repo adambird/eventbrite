@@ -8,12 +8,7 @@ class EventSynchronizer
   end
 
   def cronofy_api
-    Cronofy::Client.new(
-      ENV["CRONOFY_CLIENT_ID"],
-      ENV["CRONOFY_CLIENT_SECRET"],
-      user.cronofy_access_token,
-      user.cronofy_refresh_token
-      )
+    Cronofy::Client.new(access_token: user.cronofy_access_token, refresh_token: user.cronofy_refresh_token)
   end
 
   # Currently just choosing first editable calendar in the linked account

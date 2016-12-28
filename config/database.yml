@@ -24,5 +24,6 @@ test:
 
 production:
   <<: *default
-  database: "eventbrite_connector_production"
-
+  adapter: postgresql
+  url: <%= ENV['POSTGRES_URL'] %>
+  pool: 10
